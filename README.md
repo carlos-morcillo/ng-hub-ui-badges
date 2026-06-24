@@ -91,17 +91,35 @@ Output: `removed`.
 | `gap` | `string` | `'0.5rem'` |
 | `wrap` | `boolean` | `true` |
 
-## SCSS Mixin API
+## Custom semantic colours
 
-Import the mixins from the distributed styles:
+Every built-in colour — and any custom one — derives from a single semantic accent. There
+are three ways to register a custom colour, from simplest to most explicit.
+
+### 1. Accent token only (no SCSS)
+
+Set `--hub-sys-color-<name>` in any scope. The badge derives the `soft`, `outline`,
+`subtle`, … role colours from it automatically, across every variant:
+
+```scss
+:root {
+	--hub-sys-color-brand: #7c3aed;
+}
+```
+
+```html
+<hub-badge color="brand">Brand</hub-badge>
+<hub-badge variant="soft" color="brand">Brand soft</hub-badge>
+```
+
+### 2. `hub-badge-color-rules` — full design-system family
+
+When you already publish the complete `--hub-sys-color-<name>-*` token family, this helper
+pins every role to it. Run it inside a selector that targets `.hub-badge`:
 
 ```scss
 @use 'ng-hub-ui-badges/styles' as hub;
-```
 
-Register a custom semantic colour:
-
-```scss
 :root {
 	--hub-sys-color-brand: #7c3aed;
 	--hub-sys-color-brand-subtle: #ede9fe;
@@ -114,12 +132,27 @@ Register a custom semantic colour:
 }
 ```
 
-Then use it from Angular:
+### 3. `hub-badge-variant-rules` — explicit values
 
-```html
-<hub-badge color="brand">Brand</hub-badge>
-<hub-badge variant="soft" color="brand">Brand Soft</hub-badge>
+To pin the role colours without declaring the token family, pass them directly. Provide
+every role you want to control:
+
+```scss
+@use 'ng-hub-ui-badges/styles' as hub;
+
+.hub-badge {
+	@include hub.hub-badge-variant-rules(
+		'brand',
+		$accent: #7c3aed,
+		$accent-emphasis: #5b21b6,
+		$accent-subtle: #ede9fe,
+		$accent-border: #c4b5fd,
+		$accent-contrast: #fff
+	);
+}
 ```
+
+Then use any of them from Angular with `color="brand"`.
 
 ## Styling
 
