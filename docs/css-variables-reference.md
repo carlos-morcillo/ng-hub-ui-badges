@@ -9,11 +9,12 @@
 | `--hub-badge-letter-spacing` | `0.01em` | Letter spacing |
 | `--hub-badge-padding-x` | `0.625rem` | Horizontal padding |
 | `--hub-badge-padding-y` | `0.375rem` | Vertical padding |
-| `--hub-badge-gap` | `0.375rem` | Gap between visuals and label |
+| `--hub-badge-gap` | `0.375rem` | Gap between dot, projected content and dismiss button |
+| `--hub-badge-direction` | `row` | Flex direction of the badge content |
+| `--hub-badge-align` | `center` | Cross-axis alignment of the badge content |
 | `--hub-badge-border-width` | `var(--hub-ref-border-width, 1px)` | Border width |
 | `--hub-badge-border-radius` | `50rem` | Shell radius |
 | `--hub-badge-dot-size` | `0.5rem` | Status-dot diameter |
-| `--hub-badge-icon-size` | `0.875em` | Icon size |
 | `--hub-badge-remove-size` | `1rem` | Dismiss button size |
 | `--hub-badge-remove-gap` | `0.125rem` | Gap before dismiss button |
 | `--hub-badge-remove-hover-bg` | `color-mix(in srgb, currentColor 12%, transparent)` | Dismiss hover surface |

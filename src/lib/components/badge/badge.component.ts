@@ -39,12 +39,6 @@ export class HubBadgeComponent {
 	/** Whether a leading status dot is rendered. */
 	readonly dot = input(false);
 
-	/** Optional leading icon CSS class rendered through an `<i>` tag. */
-	readonly icon = input<string | null>(null);
-
-	/** Optional trailing icon CSS class rendered before the remove button. */
-	readonly trailingIcon = input<string | null>(null);
-
 	/** Enables the dismiss affordance, turning the badge into a removable tag. */
 	readonly removable = input(false);
 

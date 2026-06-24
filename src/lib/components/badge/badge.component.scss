@@ -16,10 +16,11 @@
 	--hub-badge-padding-x: 0.625rem;
 	--hub-badge-padding-y: 0.375rem;
 	--hub-badge-gap: 0.375rem;
+	--hub-badge-direction: row;
+	--hub-badge-align: center;
 	--hub-badge-border-width: var(--hub-ref-border-width, 1px);
 	--hub-badge-border-radius: 50rem;
 	--hub-badge-dot-size: 0.5rem;
-	--hub-badge-icon-size: 0.875em;
 	--hub-badge-remove-size: 1rem;
 	--hub-badge-remove-gap: 0.125rem;
 	--hub-badge-remove-hover-bg: color-mix(in srgb, currentColor 12%, transparent);
@@ -80,7 +81,8 @@
 
 .hub-badge {
 	display: inline-flex;
-	align-items: center;
+	flex-direction: var(--hub-badge-direction);
+	align-items: var(--hub-badge-align);
 	gap: var(--hub-badge-gap);
 	max-inline-size: 100%;
 	padding: var(--hub-badge-padding-y) var(--hub-badge-padding-x);
@@ -98,23 +100,12 @@
 	transition: var(--hub-badge-transition);
 }
 
-.hub-badge__label {
-	min-inline-size: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
 .hub-badge__dot {
 	inline-size: var(--hub-badge-dot-size);
 	block-size: var(--hub-badge-dot-size);
 	flex: 0 0 auto;
 	background: var(--hub-badge-dot-color);
 	border-radius: 50%;
-}
-
-.hub-badge__icon {
-	flex: 0 0 auto;
-	font-size: var(--hub-badge-icon-size);
 }
 
 .hub-badge__remove {

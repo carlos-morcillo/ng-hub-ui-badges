@@ -16,13 +16,41 @@ This package is part of [Hub UI](https://hubui.dev/), a collection of Angular co
 - Live examples: https://hubui.dev/badges/examples/
 - Hub UI: https://hubui.dev/
 
+## Library Family `ng-hub-ui`
+
+This library is part of the **Hub UI** ecosystem:
+
+- [ng-hub-ui-accordion](https://www.npmjs.com/package/ng-hub-ui-accordion) (deprecated — use ng-hub-ui-panels)
+- [ng-hub-ui-action-sheet](https://www.npmjs.com/package/ng-hub-ui-action-sheet)
+- [ng-hub-ui-avatar](https://www.npmjs.com/package/ng-hub-ui-avatar)
+- [ng-hub-ui-badges](https://www.npmjs.com/package/ng-hub-ui-badges) ← You are here
+- [ng-hub-ui-board](https://www.npmjs.com/package/ng-hub-ui-board)
+- [ng-hub-ui-breadcrumbs](https://www.npmjs.com/package/ng-hub-ui-breadcrumbs)
+- [ng-hub-ui-buttons](https://www.npmjs.com/package/ng-hub-ui-buttons)
+- [ng-hub-ui-calendar](https://www.npmjs.com/package/ng-hub-ui-calendar)
+- [ng-hub-ui-dropdown](https://www.npmjs.com/package/ng-hub-ui-dropdown)
+- [ng-hub-ui-ds](https://www.npmjs.com/package/ng-hub-ui-ds)
+- [ng-hub-ui-forms](https://www.npmjs.com/package/ng-hub-ui-forms)
+- [ng-hub-ui-history](https://www.npmjs.com/package/ng-hub-ui-history)
+- [ng-hub-ui-milestones](https://www.npmjs.com/package/ng-hub-ui-milestones)
+- [ng-hub-ui-modal](https://www.npmjs.com/package/ng-hub-ui-modal)
+- [ng-hub-ui-nav](https://www.npmjs.com/package/ng-hub-ui-nav)
+- [ng-hub-ui-paginable](https://www.npmjs.com/package/ng-hub-ui-paginable)
+- [ng-hub-ui-panels](https://www.npmjs.com/package/ng-hub-ui-panels)
+- [ng-hub-ui-portal](https://www.npmjs.com/package/ng-hub-ui-portal)
+- [ng-hub-ui-skeleton](https://www.npmjs.com/package/ng-hub-ui-skeleton)
+- [ng-hub-ui-sortable](https://www.npmjs.com/package/ng-hub-ui-sortable)
+- [ng-hub-ui-stepper](https://www.npmjs.com/package/ng-hub-ui-stepper)
+- [ng-hub-ui-toast](https://www.npmjs.com/package/ng-hub-ui-toast)
+- [ng-hub-ui-utils](https://www.npmjs.com/package/ng-hub-ui-utils)
+
 ## Features
 
 - `HubBadgeComponent` for labels, counters, status pills and removable tags.
 - Six visual treatments: `solid`, `soft`, `outline`, `ghost`, `subtle`, `surface`.
 - Six built-in semantic colours plus open custom semantic names.
 - Size scale `xs`–`lg` and shapes `pill`, `rounded`, `square`.
-- Optional status dot, leading icon, trailing icon and accessible dismiss action.
+- Optional status dot and accessible dismiss action; icons are projected as content.
 - `HubBadgeGroupComponent` for wrapped rows and stacked badge layouts.
 - Public SCSS mixins at `ng-hub-ui-badges/styles` for custom semantic colour registration.
 
@@ -74,13 +102,18 @@ export class ExampleComponent {}
 | `size` | `HubBadgeSize` | `'md'` |
 | `shape` | `HubBadgeShape` | `'pill'` |
 | `dot` | `boolean` | `false` |
-| `icon` | `string \| null` | `null` |
-| `trailingIcon` | `string \| null` | `null` |
 | `removable` | `boolean` | `false` |
 | `removeLabel` | `string` | `'Remove badge'` |
 | `disabled` | `boolean` | `false` |
 
 Output: `removed`.
+
+Icons are not an input — project them as content next to the label. The internal layout
+(`--hub-badge-gap`, `--hub-badge-direction`, `--hub-badge-align`) keeps them aligned:
+
+```html
+<hub-badge color="danger"><i class="fa-solid fa-bell"></i> 5 alerts</hub-badge>
+```
 
 ### `HubBadgeGroupComponent`
 
@@ -163,6 +196,8 @@ The public token family includes:
 - `--hub-badge-padding-y`
 - `--hub-badge-border-radius`
 - `--hub-badge-gap`
+- `--hub-badge-direction`
+- `--hub-badge-align`
 - `--hub-badge-accent`
 - `--hub-badge-accent-subtle`
 - `--hub-badge-accent-emphasis`
@@ -175,3 +210,25 @@ See [`docs/css-variables-reference.md`](./docs/css-variables-reference.md) for t
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md).
+
+## Contributing
+
+Contributions and collaboration are welcome.
+
+- Fork the repository.
+- Create a feature branch.
+- Commit and push your changes.
+- Open a pull request.
+
+## Support
+
+If you find this project helpful and would like to support its development, you can buy me a coffee:
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/carlosmorcillo)
+
+- **Issues**: [GitHub Issues](https://github.com/carlos-morcillo/ng-hub-ui-badges/issues)
+- **Author**: [Carlos Morcillo](https://www.carlosmorcillo.com)
+
+## License
+
+This project is licensed under the MIT License.
