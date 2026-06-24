@@ -1,0 +1,11 @@
+// ── ng-hub-ui-badges public SCSS API ────────────────────────────────────────
+//
+// Import this file to access the semantic colour extension mixins:
+//
+//   @use 'ng-hub-ui-badges/styles' as hub;
+//
+//   .hub-badge {
+//     @include hub.hub-badge-color-rules('brand');
+//   }
+
+@forward 'badge-mixins';

@@ -1,0 +1,33 @@
+{
+	"name": "ng-hub-ui-badges",
+	"version": "22.0.0",
+	"description": "Semantic badges, status pills and removable filter tags for Angular, part of the ng-hub-ui ecosystem",
+	"author": "Carlos Morcillo <carlos.morcillo@me.com> (https://www.carlosmorcillo.com)",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/carlos-morcillo/ng-hub-ui-badges.git"
+	},
+	"bugs": {
+		"url": "https://github.com/carlos-morcillo/ng-hub-ui-badges/issues",
+		"email": "carlos.morcillo@me.com"
+	},
+	"homepage": "https://hubui.dev/",
+	"keywords": [
+		"angular",
+		"badge",
+		"tag",
+		"pill",
+		"status",
+		"ui-component",
+		"ng-hub-ui",
+		"signals"
+	],
+	"peerDependencies": {
+		"@angular/common": ">=22.0.0",
+		"@angular/core": ">=22.0.0"
+	},
+	"dependencies": {
+		"tslib": "^2.3.0"
+	},
+	"sideEffects": false
+}

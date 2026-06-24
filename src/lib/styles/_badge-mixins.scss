@@ -1,0 +1,48 @@
+// ── Badge variant-generation mixins ──────────────────────────────────────────
+//
+// Public API:
+//
+//   hub-badge-variant-rules($type, ...)  ← generic primitive
+//   hub-badge-color-rules($type)         ← convenience helper
+//
+// Token convention expected for custom semantic colours:
+//   --hub-sys-color-{type}
+//   --hub-sys-color-{type}-subtle
+//   --hub-sys-color-{type}-emphasis
+//   --hub-sys-color-{type}-border-subtle
+//   --hub-sys-color-{type}-on-default   (optional)
+
+/// Outputs badge variant CSS rules for a given semantic colour family.
+/// This primitive expects to run inside a selector already targeting `.hub-badge`
+/// or another badge-like shell.
+///
+/// @param {string} $type - Semantic colour name.
+/// @param {value} $accent - Resting accent colour.
+/// @param {value} $accent-emphasis - Emphasis colour used for foregrounds.
+/// @param {value} $accent-subtle - Subtle/tinted surface.
+/// @param {value} $accent-border - Subtle border colour.
+/// @param {value} $accent-contrast - Text colour displayed on the solid accent.
+@mixin hub-badge-variant-rules(
+	$type,
+	$accent: var(--hub-sys-color-#{$type}),
+	$accent-emphasis: var(--hub-sys-color-#{$type}-emphasis, color-mix(in srgb, var(--hub-sys-color-#{$type}) 80%, var(--hub-sys-color-dark, #212529))),
+	$accent-subtle: var(--hub-sys-color-#{$type}-subtle, color-mix(in srgb, var(--hub-sys-color-#{$type}) 14%, var(--hub-sys-surface-page, #fff))),
+	$accent-border: var(--hub-sys-color-#{$type}-border-subtle, color-mix(in srgb, var(--hub-sys-color-#{$type}) 28%, transparent)),
+	$accent-contrast: var(--hub-sys-color-#{$type}-on-default, var(--hub-ref-color-white, #fff))
+) {
+	&[data-variant='#{$type}'] {
+		--hub-badge-accent: #{$accent};
+		--hub-badge-accent-emphasis: #{$accent-emphasis};
+		--hub-badge-accent-subtle: #{$accent-subtle};
+		--hub-badge-accent-border: #{$accent-border};
+		--hub-badge-accent-contrast: #{$accent-contrast};
+	}
+}
+
+/// Registers all standard badge colour rules for an additional semantic colour.
+/// Use it inside a selector that targets `.hub-badge`.
+///
+/// @param {string} $type - Semantic colour name.
+@mixin hub-badge-color-rules($type) {
+	@include hub-badge-variant-rules($type);
+}
