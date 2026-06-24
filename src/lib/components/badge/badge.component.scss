@@ -1,3 +1,6 @@
+@use 'sass:list';
+@use '../../styles/badge-mixins' as badge;
+
 :where(.hub-badge) {
 	--hub-badge-accent: var(--hub-sys-color-primary, #0d6efd);
 	--hub-badge-accent-emphasis: var(--hub-sys-color-primary-emphasis, #0a58ca);
@@ -35,48 +38,22 @@
 	--hub-badge-accent-border: color-mix(in srgb, var(--hub-badge-accent) 28%, transparent);
 }
 
-:where(.hub-badge[data-variant='primary']) {
-	--hub-badge-accent: var(--hub-sys-color-primary, #0d6efd);
-	--hub-badge-accent-emphasis: var(--hub-sys-color-primary-emphasis, #0a58ca);
-	--hub-badge-accent-subtle: var(--hub-sys-color-primary-subtle, #cfe2ff);
-	--hub-badge-accent-border: var(--hub-sys-color-primary-border-subtle, #9ec5fe);
+// Built-in semantic colours, generated from the public mixin so they share the
+// exact selector shape and token contract that consumer-registered colours use.
+//
+// Solid accents are dark by default, so white reads on top of them. The few light
+// accents listed here need black instead; `hub-badge-on-accent()` returns the right
+// one per colour so a single loop covers every built-in.
+$hub-badge-light-accents: 'warning', 'info';
+
+@function hub-badge-on-accent($color) {
+	@return if(list.index($hub-badge-light-accents, $color), #000, #fff);
 }
 
-:where(.hub-badge[data-variant='success']) {
-	--hub-badge-accent: var(--hub-sys-color-success, #198754);
-	--hub-badge-accent-emphasis: var(--hub-sys-color-success-emphasis, #0a3622);
-	--hub-badge-accent-subtle: var(--hub-sys-color-success-subtle, #d1e7dd);
-	--hub-badge-accent-border: var(--hub-sys-color-success-border-subtle, #a3cfbb);
-}
-
-:where(.hub-badge[data-variant='danger']) {
-	--hub-badge-accent: var(--hub-sys-color-danger, #dc3545);
-	--hub-badge-accent-emphasis: var(--hub-sys-color-danger-emphasis, #58151c);
-	--hub-badge-accent-subtle: var(--hub-sys-color-danger-subtle, #f8d7da);
-	--hub-badge-accent-border: var(--hub-sys-color-danger-border-subtle, #f1aeb5);
-}
-
-:where(.hub-badge[data-variant='warning']) {
-	--hub-badge-accent: var(--hub-sys-color-warning, #ffc107);
-	--hub-badge-accent-emphasis: var(--hub-sys-color-warning-emphasis, #664d03);
-	--hub-badge-accent-subtle: var(--hub-sys-color-warning-subtle, #fff3cd);
-	--hub-badge-accent-border: var(--hub-sys-color-warning-border-subtle, #ffe69c);
-	--hub-badge-accent-contrast: var(--hub-sys-color-warning-emphasis, #664d03);
-}
-
-:where(.hub-badge[data-variant='info']) {
-	--hub-badge-accent: var(--hub-sys-color-info, #0dcaf0);
-	--hub-badge-accent-emphasis: var(--hub-sys-color-info-emphasis, #055160);
-	--hub-badge-accent-subtle: var(--hub-sys-color-info-subtle, #cff4fc);
-	--hub-badge-accent-border: var(--hub-sys-color-info-border-subtle, #9eeaf9);
-	--hub-badge-accent-contrast: var(--hub-sys-color-info-emphasis, #055160);
-}
-
-:where(.hub-badge[data-variant='secondary']) {
-	--hub-badge-accent: var(--hub-sys-color-secondary, #6c757d);
-	--hub-badge-accent-emphasis: color-mix(in srgb, var(--hub-sys-color-secondary, #6c757d) 84%, var(--hub-sys-color-dark, #212529));
-	--hub-badge-accent-subtle: color-mix(in srgb, var(--hub-sys-color-secondary, #6c757d) 14%, var(--hub-sys-surface-page, #fff));
-	--hub-badge-accent-border: color-mix(in srgb, var(--hub-sys-color-secondary, #6c757d) 28%, transparent);
+:where(.hub-badge) {
+	@each $color in 'primary', 'secondary', 'success', 'danger', 'warning', 'info' {
+		@include badge.hub-badge-variant-rules($color, $accent-contrast: hub-badge-on-accent($color));
+	}
 }
 
 .hub-badge {

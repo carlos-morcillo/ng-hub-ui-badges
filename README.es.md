@@ -3,7 +3,7 @@
 **Español** | [English](./README.md)
 
 [![NPM Version](https://img.shields.io/npm/v/ng-hub-ui-badges.svg)](https://www.npmjs.com/package/ng-hub-ui-badges)
-[![Angular](https://img.shields.io/badge/Angular-22%2B-red.svg)](https://angular.dev)
+[![Angular](https://img.shields.io/badge/Angular-21%2B-red.svg)](https://angular.dev)
 [![License](https://img.shields.io/npm/l/ng-hub-ui-badges.svg)](LICENSE)
 
 Badges semánticos para Angular orientados a estados, contadores y tags removibles, con variables CSS y mixins SCSS públicos para familias de color personalizadas.
