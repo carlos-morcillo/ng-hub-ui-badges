@@ -1,3 +1,18 @@
+## [22.2.1] - 2026-06-25
+
+### Fixed
+
+- Design-token consistency pass: aligned inline fallback defaults with the canonical `ng-hub-ui-ds` values and routed hardcoded literals (z-index, font-weight, line-height, radii and theme-aware colours) through their `--hub-sys-*` / `--hub-ref-*` tokens, so they follow the active theme. No visual change when the ds tokens are loaded.
+
+## [22.2.0] - 2026-06-25
+
+### Changed
+
+- Consolidated every badge dimension token onto the shared `--hub-ref-*` reference scale (a compact mapping that keeps the badge chip-sized), so sizing resolves through the design-system tokens instead of hand-tuned rem literals — matching the Figma `ff/badge` variable layer:
+    - Base: `--hub-badge-padding-x` `0.625rem` → `var(--hub-ref-space-2)`, `--hub-badge-padding-y` `0.375rem` → `var(--hub-ref-space-1)`, `--hub-badge-gap` `0.375rem` → `var(--hub-ref-space-1)`, `--hub-badge-dot-size` `0.5rem` → `var(--hub-ref-space-2)`.
+    - Size ramp `xs` / `sm` / `md` / `lg` now references `--hub-ref-space-*` and `--hub-ref-font-size-*`.
+- Visual note: `md` padding tightens (10→8px / 6→4px) so the chip stays compact; the other steps land on the nearest reference token. Behaviour is unchanged.
+
 ## [22.1.0] - 2026-06-24
 
 ### Changed
