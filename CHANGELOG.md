@@ -1,3 +1,26 @@
+## [22.3.0] - 2026-06-26
+
+### Added
+
+- New on-accent contrast pair `--hub-badge-accent-on`: a grayscale contrast flip of the accent (`oklch(from … clamp(0, (0.62 - l) * 1000, 1) 0 h)`) that picks white or near-black text automatically from the accent's own lightness. Replaces the hard-coded per-colour `--hub-badge-accent-contrast` (and the `$hub-badge-light-accents` / `hub-badge-on-accent()` helper that listed `warning`/`info` by hand).
+- Open-set theming at runtime: any new accent (e.g. `brand`) works with a single CSS rule that points the slot at a colour — `.hub-badge[data-variant='brand'] { --hub-badge-accent: var(--hub-sys-color-brand); }` — and emphasis / subtle / border / on derive themselves. The open path no longer depends on the `@each` or on recompiling the library.
+
+### Changed
+
+- The local accent slot `--hub-badge-accent` now derives its whole role family at runtime from the slot itself (recomputed live whenever the accent changes), instead of reading per-type `--hub-sys-color-{type}-*` tokens:
+    - `--hub-badge-accent-emphasis` = `color-mix(in oklch, accent 80%, var(--hub-sys-color-ink))`.
+    - `--hub-badge-accent-subtle` = `color-mix(in oklch, accent 12%, var(--hub-sys-surface-page))`.
+    - `--hub-badge-accent-border` = `color-mix(in oklch, accent 35%, var(--hub-sys-surface-page))`.
+    - `--hub-badge-accent-on` = grayscale contrast flip of the accent.
+- Known-variant loop expanded from 6 to the 9 canonical accents — `primary, secondary, success, danger, warning, info, neutral, light, dark` — where each `[data-variant]` only points `--hub-badge-accent` at its `--hub-sys-color-{variant}`.
+- `hub-badge-variant-rules($type, $accent)` simplified: it now only sets the local accent slot for a variant (no role/contrast parameters); the role family is derived in the component.
+- Migrated every `color-mix(in srgb, …)` to `in oklch` (soft/subtle borders and the remove-button hover overlay).
+
+### Removed
+
+- Hard-coded `--hub-badge-accent-contrast` token and the `$hub-badge-light-accents` list / `hub-badge-on-accent()` helper; on-accent text is now derived from the accent via `--hub-badge-accent-on`.
+- Duplicated per-`[data-variant]` role derivations (previously re-declared in `srgb`); the single slot-derived family now covers every variant.
+
 ## [22.2.1] - 2026-06-25
 
 ### Fixed

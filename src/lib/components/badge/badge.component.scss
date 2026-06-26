@@ -1,14 +1,28 @@
-@use 'sass:list';
 @use '../../styles/badge-mixins' as badge;
 
+// ── Local accent slot + runtime-derived role family ───────────────────────
+// `--hub-badge-accent` is the single per-component input. Every visual role
+// (emphasis / subtle / border / on) is derived LOCALLY from this slot with
+// color-mix() / relative color, so the whole family recomputes at runtime
+// whenever the accent changes — no recompilation, no per-variant tokens.
+//
+// OPEN-SET: a known variant only sets `--hub-badge-accent` (see the @each
+// below). Any NEW accent works with ONE rule that sets the slot, e.g.:
+//
+//   .hub-badge[data-variant='brand'] { --hub-badge-accent: var(--hub-sys-color-brand); }
+//
+// emphasis / subtle / border / on are derived here automatically — the open
+// path never touches the @each.
 :where(.hub-badge) {
 	--hub-badge-accent: var(--hub-sys-color-primary, #0d6efd);
-	--hub-badge-accent-emphasis: var(--hub-sys-color-primary-emphasis, #0a58ca);
-	--hub-badge-accent-subtle: var(--hub-sys-color-primary-subtle, #cfe2ff);
-	--hub-badge-accent-border: var(--hub-sys-color-primary-border-subtle, #9ec5fe);
-	--hub-badge-accent-contrast: var(--hub-ref-color-white, #fff);
+	--hub-badge-accent-emphasis: color-mix(in oklch, var(--hub-badge-accent) 80%, var(--hub-sys-color-ink, #212529));
+	--hub-badge-accent-subtle: color-mix(in oklch, var(--hub-badge-accent) 12%, var(--hub-sys-surface-page, #fff));
+	--hub-badge-accent-border: color-mix(in oklch, var(--hub-badge-accent) 35%, var(--hub-sys-surface-page, #fff));
+	// Contrast / on-color: grayscale flip driven by the accent's own lightness.
+	// Dark accents (L < .62) resolve to white text; light accents to near-black.
+	--hub-badge-accent-on: oklch(from var(--hub-badge-accent) clamp(0, (0.62 - l) * 1000, 1) 0 h);
 	--hub-badge-bg: var(--hub-badge-accent);
-	--hub-badge-color: var(--hub-badge-accent-contrast);
+	--hub-badge-color: var(--hub-badge-accent-on);
 	--hub-badge-border-color: var(--hub-badge-accent);
 	--hub-badge-dot-color: currentColor;
 	--hub-badge-font-family: var(--hub-ref-font-family-base, inherit);
@@ -26,33 +40,26 @@
 	--hub-badge-dot-size: var(--hub-ref-space-2, 0.5rem);
 	--hub-badge-remove-size: 1rem;
 	--hub-badge-remove-gap: 0.125rem;
-	--hub-badge-remove-hover-bg: color-mix(in srgb, currentColor 12%, transparent);
+	--hub-badge-remove-hover-bg: color-mix(in oklch, currentColor 12%, transparent);
 	--hub-badge-focus-ring-width: var(--hub-sys-focus-ring-width, 0.25rem);
 	--hub-badge-focus-ring-color: var(--hub-sys-focus-ring-color, rgba(13, 110, 253, 0.25));
 	--hub-badge-transition: var(--hub-sys-transition-base, all 0.2s ease-in-out);
 }
 
-:where(.hub-badge[data-variant]) {
-	--hub-badge-accent-emphasis: color-mix(in srgb, var(--hub-badge-accent) 80%, var(--hub-sys-color-dark, #212529));
-	--hub-badge-accent-subtle: color-mix(in srgb, var(--hub-badge-accent) 14%, var(--hub-sys-surface-page, #fff));
-	--hub-badge-accent-border: color-mix(in srgb, var(--hub-badge-accent) 28%, transparent);
-}
-
-// Built-in semantic colours, generated from the public mixin so they share the
-// exact selector shape and token contract that consumer-registered colours use.
+// Known-variant accent assignment (closed set, 9 canonical variants).
+// Each known variant ONLY points the local accent slot at the matching sys
+// accent; the role family (-emphasis / -subtle / -border / -on) is derived
+// from the slot in :where(.hub-badge) above, so this loop never enumerates
+// roles or contrast colours.
 //
-// Solid accents are dark by default, so white reads on top of them. The few light
-// accents listed here need black instead; `hub-badge-on-accent()` returns the right
-// one per colour so a single loop covers every built-in.
-$hub-badge-light-accents: 'warning', 'info';
-
-@function hub-badge-on-accent($color) {
-	@return if(list.index($hub-badge-light-accents, $color), #000, #fff);
-}
-
+// OPEN-SET guarantee: the appearance modifiers below read ONLY the local slot
+// family, so a consumer can register any new accent (e.g. `brand`) with a
+// single rule that sets `--hub-badge-accent` — emphasis / subtle / border / on
+// derive themselves and every appearance just works, with no recompilation and
+// without appearing in this @each.
 :where(.hub-badge) {
-	@each $color in 'primary', 'secondary', 'success', 'danger', 'warning', 'info' {
-		@include badge.hub-badge-variant-rules($color, $accent-contrast: hub-badge-on-accent($color));
+	@each $color in 'primary', 'secondary', 'success', 'danger', 'warning', 'info', 'neutral', 'light', 'dark' {
+		@include badge.hub-badge-variant-rules($color);
 	}
 }
 
@@ -117,7 +124,7 @@ $hub-badge-light-accents: 'warning', 'info';
 
 .hub-badge--solid {
 	--hub-badge-bg: var(--hub-badge-accent);
-	--hub-badge-color: var(--hub-badge-accent-contrast);
+	--hub-badge-color: var(--hub-badge-accent-on);
 	--hub-badge-border-color: var(--hub-badge-accent);
 	--hub-badge-dot-color: currentColor;
 }
@@ -125,7 +132,7 @@ $hub-badge-light-accents: 'warning', 'info';
 .hub-badge--soft {
 	--hub-badge-bg: var(--hub-badge-accent-subtle);
 	--hub-badge-color: var(--hub-badge-accent-emphasis);
-	--hub-badge-border-color: color-mix(in srgb, var(--hub-badge-accent) 12%, transparent);
+	--hub-badge-border-color: color-mix(in oklch, var(--hub-badge-accent) 12%, transparent);
 	--hub-badge-dot-color: var(--hub-badge-accent);
 }
 
@@ -144,7 +151,7 @@ $hub-badge-light-accents: 'warning', 'info';
 }
 
 .hub-badge--subtle {
-	--hub-badge-bg: color-mix(in srgb, var(--hub-badge-accent) 8%, var(--hub-sys-surface-page, #fff));
+	--hub-badge-bg: color-mix(in oklch, var(--hub-badge-accent) 8%, var(--hub-sys-surface-page, #fff));
 	--hub-badge-color: var(--hub-badge-accent-emphasis);
 	--hub-badge-border-color: var(--hub-badge-accent-border);
 	--hub-badge-dot-color: var(--hub-badge-accent);

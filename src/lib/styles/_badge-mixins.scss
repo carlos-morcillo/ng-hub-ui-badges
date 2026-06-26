@@ -2,45 +2,45 @@
 //
 // Public API:
 //
-//   hub-badge-variant-rules($type, ...)  ← generic primitive
-//   hub-badge-color-rules($type)         ← convenience helper
+//   hub-badge-variant-rules($type, $accent)  ← generic primitive
+//   hub-badge-color-rules($type)             ← convenience helper
 //
-// Token convention expected for custom semantic colours:
-//   --hub-sys-color-{type}
-//   --hub-sys-color-{type}-subtle
-//   --hub-sys-color-{type}-emphasis
-//   --hub-sys-color-{type}-border-subtle
-//   --hub-sys-color-{type}-on-default   (optional)
+// LOCAL ACCENT SLOT — the open-set contract
+// -----------------------------------------
+// The badge reads a single per-component input, `--hub-badge-accent`, and derives
+// its whole role family from it AT RUNTIME (see badge.component.scss):
+//
+//   --hub-badge-accent-emphasis = color-mix(in oklch, accent 80%, ink)
+//   --hub-badge-accent-subtle   = color-mix(in oklch, accent 12%, surface)
+//   --hub-badge-accent-border   = color-mix(in oklch, accent 35%, surface)
+//   --hub-badge-accent-on       = grayscale contrast flip of the accent
+//
+// Because every appearance modifier (solid/soft/outline/ghost/subtle) consumes
+// ONLY these local slot tokens, registering a brand-new accent needs no knowledge
+// of roles and no recompilation — just point the slot at any colour:
+//
+//   .hub-badge[data-variant='brand'] { --hub-badge-accent: var(--hub-sys-color-brand); }
+//
+// emphasis / subtle / border / on derive themselves and every appearance works.
 
-/// Outputs badge variant CSS rules for a given semantic colour family.
-/// This primitive expects to run inside a selector already targeting `.hub-badge`
-/// or another badge-like shell.
+/// Points the local badge accent slot at a semantic colour for one variant.
+/// Runs inside a selector already targeting `.hub-badge`. Only the slot is set;
+/// the role family (-emphasis / -subtle / -border / -on) is derived from it in
+/// the component, so this primitive never enumerates roles.
 ///
-/// @param {string} $type - Semantic colour name.
-/// @param {value} $accent - Resting accent colour.
-/// @param {value} $accent-emphasis - Emphasis colour used for foregrounds.
-/// @param {value} $accent-subtle - Subtle/tinted surface.
-/// @param {value} $accent-border - Subtle border colour.
-/// @param {value} $accent-contrast - Text colour displayed on the solid accent.
-@mixin hub-badge-variant-rules(
-	$type,
-	$accent: var(--hub-sys-color-#{$type}),
-	$accent-emphasis: var(--hub-sys-color-#{$type}-emphasis, color-mix(in srgb, var(--hub-sys-color-#{$type}) 80%, var(--hub-sys-color-dark, #212529))),
-	$accent-subtle: var(--hub-sys-color-#{$type}-subtle, color-mix(in srgb, var(--hub-sys-color-#{$type}) 14%, var(--hub-sys-surface-page, #fff))),
-	$accent-border: var(--hub-sys-color-#{$type}-border-subtle, color-mix(in srgb, var(--hub-sys-color-#{$type}) 28%, transparent)),
-	$accent-contrast: var(--hub-sys-color-#{$type}-on-default, var(--hub-ref-color-white, #fff))
-) {
+/// @param {string} $type   - Semantic colour name (drives the [data-variant] selector).
+/// @param {value}  $accent - Resting accent colour for the slot. Defaults to the
+///                           matching `--hub-sys-color-{type}`, with a primary fallback.
+@mixin hub-badge-variant-rules($type, $accent: var(--hub-sys-color-#{$type}, var(--hub-sys-color-primary))) {
 	&[data-variant='#{$type}'] {
 		--hub-badge-accent: #{$accent};
-		--hub-badge-accent-emphasis: #{$accent-emphasis};
-		--hub-badge-accent-subtle: #{$accent-subtle};
-		--hub-badge-accent-border: #{$accent-border};
-		--hub-badge-accent-contrast: #{$accent-contrast};
 	}
 }
 
-/// Registers all standard badge colour rules for an additional semantic colour.
-/// Use it inside a selector that targets `.hub-badge`.
+/// Registers a new badge accent variant by pointing the local accent slot at its
+/// sys colour. The appearance modifiers baked into the component already read the
+/// slot, so this single declaration is enough — emphasis / subtle / border / on
+/// derive at runtime. Use it inside a selector that targets `.hub-badge`.
 ///
 /// @param {string} $type - Semantic colour name.
 @mixin hub-badge-color-rules($type) {
