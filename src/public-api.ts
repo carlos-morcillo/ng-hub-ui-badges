@@ -3,5 +3,6 @@
  */
 
 export * from './lib/models/badge.types';
+export * from './lib/badge-tooltip';
 export * from './lib/components/badge/badge.component';
 export * from './lib/components/badge-group/badge-group.component';

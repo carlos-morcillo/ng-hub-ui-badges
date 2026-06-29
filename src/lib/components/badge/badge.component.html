@@ -2,7 +2,7 @@
 	<span class="hub-badge__dot" aria-hidden="true"></span>
 }
 
-<ng-content></ng-content>
+<span #content class="hub-badge__content"><ng-content></ng-content></span>
 
 @if (removable()) {
 	<button

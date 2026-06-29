@@ -37,6 +37,7 @@
 	--hub-badge-align: center;
 	--hub-badge-border-width: var(--hub-ref-border-width, 1px);
 	--hub-badge-border-radius: var(--hub-ref-radius-pill, 50rem);
+	--hub-badge-max-width: 100%;
 	--hub-badge-dot-size: var(--hub-ref-space-2, 0.5rem);
 	--hub-badge-remove-size: 1rem;
 	--hub-badge-remove-gap: 0.125rem;
@@ -68,7 +69,7 @@
 	flex-direction: var(--hub-badge-direction);
 	align-items: var(--hub-badge-align);
 	gap: var(--hub-badge-gap);
-	max-inline-size: 100%;
+	max-inline-size: var(--hub-badge-max-width, 100%);
 	padding: var(--hub-badge-padding-y) var(--hub-badge-padding-x);
 	color: var(--hub-badge-color);
 	font-family: var(--hub-badge-font-family);
@@ -82,6 +83,14 @@
 	border: var(--hub-badge-border-width) solid var(--hub-badge-border-color);
 	border-radius: var(--hub-badge-border-radius);
 	transition: var(--hub-badge-transition);
+}
+
+.hub-badge__content {
+	flex: 0 1 auto;
+	min-inline-size: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .hub-badge__dot {

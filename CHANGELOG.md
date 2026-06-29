@@ -1,3 +1,11 @@
+## [22.4.0] - 2026-06-29
+
+### Added
+
+- **Text truncation with ellipsis.** Long badge content is now clipped with `text-overflow: ellipsis` (the content is wrapped in a `.hub-badge__content` flex item), bounded by the new `--hub-badge-max-width` CSS variable (defaults to `100%`, i.e. the parent width). Status dots and the dismiss button never shrink.
+- **`tooltip` input.** Explicit tooltip text for a badge. When omitted, the badge auto-reveals its own content as a tooltip **only while that content is truncated** (overflow detected via `ResizeObserver` + `MutationObserver`).
+- **Optional hub-ui tooltip integration** — `HUB_BADGE_TOOLTIP_ADAPTER` token, `provideHubBadgeTooltip()` provider and the `HubBadgeTooltipAdapter` / `HubBadgeTooltipHandle` contract. By default the tooltip uses the native `title` attribute (zero dependencies); provide an adapter (e.g. `hubTooltipAdapter` from `ng-hub-ui-utils`) to upgrade every badge to the richer, themeable hub-ui tooltip — `provideHubBadgeTooltip(hubTooltipAdapter)`. The native `title` is suppressed when the adapter is active to avoid double tooltips.
+
 ## [22.3.0] - 2026-06-26
 
 ### Added
