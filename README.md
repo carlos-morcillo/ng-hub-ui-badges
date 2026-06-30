@@ -105,8 +105,13 @@ export class ExampleComponent {}
 | `removable` | `boolean` | `false` |
 | `removeLabel` | `string` | `'Remove badge'` |
 | `disabled` | `boolean` | `false` |
+| `tooltip` | `string` | `''` |
 
 Output: `removed`.
+
+Long content is truncated with an ellipsis (bounded by `--hub-badge-max-width`).
+The full text is exposed as a tooltip: the explicit `tooltip` input always wins,
+otherwise the badge's own content is shown **only while it overflows**.
 
 Icons are not an input — project them as content next to the label. The internal layout
 (`--hub-badge-gap`, `--hub-badge-direction`, `--hub-badge-align`) keeps them aligned:
@@ -123,6 +128,25 @@ Icons are not an input — project them as content next to the label. The intern
 | `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | `'center'` |
 | `gap` | `string` | `'0.5rem'` |
 | `wrap` | `boolean` | `true` |
+
+## Tooltip synergy (optional, agnostic)
+
+By default the overflow tooltip uses the native browser `title` attribute — **zero
+dependencies**. To upgrade every badge to the richer, themeable hub-ui tooltip,
+provide an adapter once (e.g. the one shipped by `ng-hub-ui-utils`):
+
+```ts
+import { provideHubBadgeTooltip } from 'ng-hub-ui-badges';
+import { hubTooltipAdapter } from 'ng-hub-ui-utils';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHubBadgeTooltip(hubTooltipAdapter)]
+};
+```
+
+Remove the provider and badges fall back to the native tooltip. See the
+ecosystem-wide [Synergies & agnosticism](../../README.md#synergies--agnosticism)
+section for the full pattern.
 
 ## Custom semantic colours
 
